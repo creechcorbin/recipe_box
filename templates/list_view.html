@@ -1,0 +1,11 @@
+<div class="container">
+    <h1>{{ home }}</h1>
+    <ul>
+        {% for recipe in recipes %}
+            <li>
+                <a href="/recipe/{{ recipe.id }}">{{ recipe.title }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<!-- {{ recipes }} -->
