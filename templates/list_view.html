@@ -1,6 +1,12 @@
 <div class="container">
     <h1>{{ home }}</h1>
-    <a href="/newrecipe">Add a Recipe!</a>
+    {% if user.is_authenticated %}
+        <a href='/logout'>Logout</a>
+    {% else %}
+        <a href='/login'>Login</a>
+    {% endif %}
+    <br>
+    <a href="/newrecipe">Add a Recipe</a>
     <a href="/newauthor">Add an Author</a>
     <ul>
         {% for recipe in recipes %}
