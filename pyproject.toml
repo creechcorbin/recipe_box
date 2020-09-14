@@ -2,11 +2,11 @@
 name = "recipe_box"
 version = "0.1.0"
 description = ""
-authors = ["corbin creech <creechcorbin@gmail.com>"]
+authors = ["Trey Dickerson <treydickerson@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-django = "^3.1"
+django = "^3.1.1"
 
 [tool.poetry.dev-dependencies]
 

@@ -6,5 +6,6 @@
         <h4><a href="/{{ recipe.author.name }}">{{ recipe.author.name }}</a></h4>
         <p>{{ recipe.time_required }}</p>
         <p>{{ recipe.instructions }}</p>
+        <a href="/recipe/{{recipe.id}}/edit">Edit This Recipe</a>
     {% endif %}
 </div>
