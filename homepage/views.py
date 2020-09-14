@@ -19,7 +19,8 @@ def recipe_detail(request, recipe_id):
 def author_detail(request, author_name):
     recipes = Recipe.objects.all()
     selected_author = Author.objects.filter(name=author_name).first()
-    return render(request, 'auth_detail.html', { 'author': selected_author, 'recipes': recipes })
+    favorites = selected_author.favorites.all()
+    return render(request, 'auth_detail.html', { 'author': selected_author, 'recipes': recipes, 'favorites': favorites })
 
 @login_required
 def recipe_form(request):
@@ -39,6 +40,33 @@ def recipe_form(request):
     form = RecipeForm()
 
     return render(request, "generic_form.html", {'form': form})
+
+@login_required
+def edit_recipe_view(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    if request.method == "POST":
+        form = RecipeForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            recipe.title = data["title"]
+            recipe.author = data["author"]
+            recipe.description = data["description"]
+            recipe.time_required = data["time_required"]
+            recipe.instructions = data["instructions"]
+            recipe.save()
+        return HttpResponseRedirect(reverse("homepage"))
+    data = {
+        "title": recipe.title,
+        "author": recipe.author,
+        "description": recipe.description,
+        "time_required": recipe.time_required,
+        "instructions": recipe.instructions,
+    }
+    if request.user.is_staff or request.user.id == recipe.author.id:
+        form = RecipeForm(initial=data)
+        return render(request, "generic_form.html", {"form": form})
+
+
 
 @login_required
 def author_form(request):
@@ -84,4 +112,10 @@ def signup_view(request):
 
 def logout_view(request):
     logout(request)
+    return HttpResponseRedirect(reverse('homepage'))
+
+def add_favorite_view(request, recipe_id):
+    current_user = request.user.author
+    recipe = Recipe.objects.filter(id=recipe_id).first()
+    current_user.favorites.add(recipe)
     return HttpResponseRedirect(reverse('homepage'))

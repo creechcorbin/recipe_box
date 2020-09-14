@@ -1,6 +1,10 @@
 <div class="container">
     <h1>{{ author.name }}</h1>
     <p>{{ author.bio }}</p>
+    Favorite Recipes:<br>
+    {% for favorite in favorites %}
+        <a href="/recipe/{{favorite.id}}/">{{favorite.title}}</a><br>
+    {% endfor %}
     <ul>
         {% for recipe in recipes %}
         {% if recipe.author == author %}
